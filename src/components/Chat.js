@@ -26,6 +26,10 @@ export const Chat = ({ room }) => {
     const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
       let messages = [];
       snapshot.forEach((doc) => {
+        console.log("doc");
+        console.log("doc");
+        console.log("doc");
+        console.log(doc);
         messages.push({ ...doc.data(), id: doc.id });
       });
       console.log(messages);
@@ -34,7 +38,7 @@ export const Chat = ({ room }) => {
 
     return () => unsuscribe();
   }, []);
-
+  console.log("messages", messages);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -57,7 +61,7 @@ export const Chat = ({ room }) => {
       <div className="messages">
         {messages.map((message) => (
           <div key={message.id} className="message">
-            <span className="user">{message.user}:</span> {message.text}
+            <span className="user">{message.user}</span> {message.text}
           </div>
         ))}
       </div>
