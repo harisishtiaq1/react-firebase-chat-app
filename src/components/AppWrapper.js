@@ -24,6 +24,8 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
           alignItems: "center",
           justifyContent: "center",
           fontWeight: "500",
+          border: "3px solid black",
+          backgroundColor: "blueViolet",
         }}
       >
         Chat App
@@ -36,7 +38,7 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            mt:3
+            mt: 3,
           }}
         >
           <Button variant="contained" onClick={signUserOut}>

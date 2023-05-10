@@ -16,9 +16,19 @@ export const Auth = ({ setIsAuth }) => {
     }
   };
   return (
-    <Box sx={{display:'flex',justifyContent:'center',alignItems:'center',flexDirection:'column'}}>
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        flexDirection: "column",
+      }}
+    >
       <Typography> Sign In With Google To Continue </Typography>
-      <Button variant='contained' onClick={signInWithGoogle}> Sign In With Google </Button>
+      <Button variant="contained" onClick={signInWithGoogle}>
+        {" "}
+        Sign In With Google{" "}
+      </Button>
     </Box>
   );
 };

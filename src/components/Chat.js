@@ -68,16 +68,29 @@ export const Chat = ({ room }) => {
       }}
     >
       <div className="header">
-        <h1>Welcome to: {room.toUpperCase()}</h1>
+        <Typography variant="h5" component="h5" sx={{ fontWeight: "500" }}>
+          Welcome to: {room.toUpperCase()}
+        </Typography>
       </div>
-      <Box sx={{border:'2px solid black',margin:3}}>
+      <Box sx={{ border: "2px solid black", margin: 3 }}>
         {messages.map((message) => (
-          <Box key={message.id} >
-            <Typography sx={{fontWeight:'500'}}>{message.user} &nbsp; {message.text}</Typography> 
+          <Box key={message.id} sx={{ display: "flex", flexDirection: "row" }}>
+            <Typography sx={{ fontWeight: "500" }}>{message.user}:</Typography>
+            <Typography
+              sx={{
+                ml: 1,
+                textTransform: "capitalize",
+                color: "grey",
+                width: "500px",
+                height: "50px",
+              }}
+            >
+              {message.text}
+            </Typography>
           </Box>
         ))}
       </Box>
-      <Stack direction="column" sx={{mt:3}}>
+      <Stack direction="column" sx={{ mt: 3 }}>
         <form onSubmit={handleSubmit} className="new-message-form">
           <Input
             type="text"
@@ -86,7 +99,12 @@ export const Chat = ({ room }) => {
             className="new-message-input"
             placeholder="Type your message here..."
           />
-          <Button sx={{ml:3}} variant="contained" type="submit" className="send-button">
+          <Button
+            sx={{ ml: 3 }}
+            variant="contained"
+            type="submit"
+            className="send-button"
+          >
             Send
           </Button>
         </form>

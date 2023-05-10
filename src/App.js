@@ -3,7 +3,15 @@ import { Chat } from "./components/Chat";
 import { Auth } from "./components/Auth.js";
 import { AppWrapper } from "./components/AppWrapper";
 import Cookies from "universal-cookie";
-import { Box, Button, Input, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  Stack,
+  ThemeProvider,
+  Typography,
+  createTheme,
+} from "@mui/material";
 
 const cookies = new Cookies();
 
@@ -23,35 +31,47 @@ function ChatApp() {
       </AppWrapper>
     );
   }
-
+  const theme = createTheme({
+    typography: {
+      fontFamily: "Poppins, sans-serif",
+      fontWeightBold: "600",
+    },
+    backgroundColor: "#F4F7FE",
+  });
   return (
-    <AppWrapper isAuth={isAuth} setIsAuth={setIsAuth} setIsInChat={setIsInChat}>
-      {!isInChat ? (
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            flexDirection: "column",
-          }}
-        >
-          <Typography> Type room name: </Typography>
-          <Input sx={{ mt: 4 }} onChange={(e) => setRoom(e.target.value)} />
-
-          <Button
-            sx={{ mt: 4 }}
-            variant="contained"
-            onClick={() => {
-              setIsInChat(true);
+    <ThemeProvider theme={theme}>
+      <AppWrapper
+        isAuth={isAuth}
+        setIsAuth={setIsAuth}
+        setIsInChat={setIsInChat}
+      >
+        {!isInChat ? (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              flexDirection: "column",
             }}
           >
-            Enter Chat
-          </Button>
-        </Box>
-      ) : (
-        <Chat room={room} />
-      )}
-    </AppWrapper>
+            <Typography> Type room name: </Typography>
+            <Input sx={{ mt: 4 }} onChange={(e) => setRoom(e.target.value)} />
+
+            <Button
+              sx={{ mt: 4 }}
+              variant="contained"
+              onClick={() => {
+                setIsInChat(true);
+              }}
+            >
+              Enter Chat
+            </Button>
+          </Box>
+        ) : (
+          <Chat room={room} />
+        )}
+      </AppWrapper>
+    </ThemeProvider>
   );
 }
 
