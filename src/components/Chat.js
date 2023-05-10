@@ -60,7 +60,7 @@ export const Chat = ({ room }) => {
         Welcome to: {room.toUpperCase()}
       </Typography>
       {messages && (
-        <Box sx={{ border: "2px solid black", margin: 3 }}>
+        <Box sx={{ margin: 3 }}>
           {messages &&
             messages.map((message) => (
               <Box
@@ -81,7 +81,6 @@ export const Chat = ({ room }) => {
                     ml: 1,
                     textTransform: "capitalize",
                     color: "black",
-                    width: "150px",
                     height: "50px",
                     fontWeight: "400",
                   }}
