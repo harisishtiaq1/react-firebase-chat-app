@@ -64,14 +64,17 @@ export const Chat = ({ room }) => {
       <Box sx={{ border: "2px solid black", margin: 3 }}>
         {messages.map((message) => (
           <Box key={message.id} sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography sx={{ fontWeight: "500" }}>{message.user}:</Typography>
+            <Typography variant="h5" component='h5' sx={{ fontWeight: "500" }}>{message.user}:</Typography>
             <Typography
+            variant="h6"
+            component='h6'
               sx={{
                 ml: 1,
                 textTransform: "capitalize",
-                color: "grey",
+                color: "black",
                 width: "150px",
                 height: "50px",
+                fontWeight:'400'
               }}
             >
               {message.text}

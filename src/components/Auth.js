@@ -25,7 +25,9 @@ export const Auth = ({ setIsAuth }) => {
         mt: 3,
       }}
     >
-      <Typography variant="h4" component='h4' sx={{fontStyle:'italic'}}> Sign In With Google To Continue </Typography>
+      <Typography variant="h4" component="h4" sx={{ fontStyle: "italic" }}>
+        Sign In With Google To Continue
+      </Typography>
       <Button sx={{ mt: 3 }} variant="contained" onClick={signInWithGoogle}>
         Sign In With Google
       </Button>

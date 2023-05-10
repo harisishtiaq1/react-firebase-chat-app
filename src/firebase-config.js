@@ -1,4 +1,3 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "@firebase/firestore";
@@ -11,7 +10,6 @@ const firebaseConfig = {
   messagingSenderId: "674422252651",
   appId: "1:674422252651:web:a5cd700970cf451a773d2e",
 };
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const auth = getAuth(app);
