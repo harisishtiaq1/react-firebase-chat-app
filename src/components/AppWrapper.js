@@ -1,3 +1,4 @@
+import { Box, Button, Typography } from "@mui/material";
 import { auth } from "../firebase-config.js";
 import { signOut } from "firebase/auth";
 
@@ -14,17 +15,35 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
   };
 
   return (
-    <div className="App">
-      <div className="app-header">
-        <h1> Chat App </h1>
-      </div>
+    <>
+      <Typography
+        variant="h4"
+        component="h4"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontWeight: "500",
+        }}
+      >
+        Chat App
+      </Typography>
 
       <div className="app-container">{children}</div>
       {isAuth && (
-        <div className="sign-out">
-          <button onClick={signUserOut}> Sign Out</button>
-        </div>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            mt:3
+          }}
+        >
+          <Button variant="contained" onClick={signUserOut}>
+            Sign Out
+          </Button>
+        </Box>
       )}
-    </div>
+    </>
   );
 };

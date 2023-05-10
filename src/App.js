@@ -3,7 +3,7 @@ import { Chat } from "./components/Chat";
 import { Auth } from "./components/Auth.js";
 import { AppWrapper } from "./components/AppWrapper";
 import Cookies from "universal-cookie";
-import "./App.css";
+import { Box, Button, Input, Stack, Typography } from "@mui/material";
 
 const cookies = new Cookies();
 
@@ -27,17 +27,27 @@ function ChatApp() {
   return (
     <AppWrapper isAuth={isAuth} setIsAuth={setIsAuth} setIsInChat={setIsInChat}>
       {!isInChat ? (
-        <div className="room">
-          <label> Type room name: </label>
-          <input onChange={(e) => setRoom(e.target.value)} />
-          <button
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+          }}
+        >
+          <Typography> Type room name: </Typography>
+          <Input sx={{ mt: 4 }} onChange={(e) => setRoom(e.target.value)} />
+
+          <Button
+            sx={{ mt: 4 }}
+            variant="contained"
             onClick={() => {
               setIsInChat(true);
             }}
           >
             Enter Chat
-          </button>
-        </div>
+          </Button>
+        </Box>
       ) : (
         <Chat room={room} />
       )}
