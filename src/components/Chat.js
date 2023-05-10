@@ -16,12 +16,6 @@ export const Chat = ({ room }) => {
   const [newMessage, setNewMessage] = useState("");
   const messagesRef = collection(db, "messages");
 
-  console.log("messages");
-  console.log("messages");
-  console.log("messages");
-  console.log("messages");
-  console.log(messages);
-
   useEffect(() => {
     const queryMessages = query(
       messagesRef,
@@ -31,10 +25,6 @@ export const Chat = ({ room }) => {
     const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
       let messages = [];
       snapshot.forEach((doc) => {
-        console.log("doc");
-        console.log("doc");
-        console.log("doc");
-        console.log(doc);
         messages.push({ ...doc.data(), id: doc.id });
       });
       console.log(messages);
@@ -71,7 +61,7 @@ export const Chat = ({ room }) => {
         Welcome to: {room.toUpperCase()}
       </Typography>
 
-      <Box sx={{ border: "2px solid black", padding: 5, margin: 3 }}>
+      <Box sx={{ border: "2px solid black", margin: 3 }}>
         {messages.map((message) => (
           <Box key={message.id} sx={{ display: "flex", flexDirection: "row" }}>
             <Typography sx={{ fontWeight: "500" }}>{message.user}:</Typography>
