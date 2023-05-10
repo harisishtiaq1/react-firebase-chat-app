@@ -32,11 +32,12 @@ export const Chat = ({ room }) => {
     });
 
     return () => unsuscribe();
-  }, []);
+  }, [messages]);
   console.log("messages", messages);
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setNewMessage("");
     if (newMessage === "") return;
     await addDoc(messagesRef, {
       text: newMessage,
@@ -44,8 +45,6 @@ export const Chat = ({ room }) => {
       user: auth.currentUser.displayName,
       room,
     });
-
-    setNewMessage("");
   };
 
   return (
@@ -60,28 +59,39 @@ export const Chat = ({ room }) => {
       <Typography variant="h5" component="h5" sx={{ fontWeight: "500" }}>
         Welcome to: {room.toUpperCase()}
       </Typography>
-
-      <Box sx={{ border: "2px solid black", margin: 3 }}>
-        {messages.map((message) => (
-          <Box key={message.id} sx={{ display: "flex", flexDirection: "row" }}>
-            <Typography variant="h5" component='h5' sx={{ fontWeight: "500" }}>{message.user}:</Typography>
-            <Typography
-            variant="h6"
-            component='h6'
-              sx={{
-                ml: 1,
-                textTransform: "capitalize",
-                color: "black",
-                width: "150px",
-                height: "50px",
-                fontWeight:'400'
-              }}
-            >
-              {message.text}
-            </Typography>
-          </Box>
-        ))}
-      </Box>
+      {messages && (
+        <Box sx={{ border: "2px solid black", margin: 3 }}>
+          {messages &&
+            messages.map((message) => (
+              <Box
+                key={message.id}
+                sx={{ display: "flex", flexDirection: "row" }}
+              >
+                <Typography
+                  variant="h5"
+                  component="h5"
+                  sx={{ fontWeight: "500" }}
+                >
+                  {message.user}:
+                </Typography>
+                <Typography
+                  variant="h6"
+                  component="h6"
+                  sx={{
+                    ml: 1,
+                    textTransform: "capitalize",
+                    color: "black",
+                    width: "150px",
+                    height: "50px",
+                    fontWeight: "400",
+                  }}
+                >
+                  {message.text}
+                </Typography>
+              </Box>
+            ))}
+        </Box>
+      )}
       <Stack direction="column" sx={{ mt: 3 }}>
         <form onSubmit={handleSubmit} className="new-message-form">
           <Input
