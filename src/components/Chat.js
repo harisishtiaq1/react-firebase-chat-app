@@ -67,12 +67,11 @@ export const Chat = ({ room }) => {
         flexDirection: "column",
       }}
     >
-      <div className="header">
-        <Typography variant="h5" component="h5" sx={{ fontWeight: "500" }}>
-          Welcome to: {room.toUpperCase()}
-        </Typography>
-      </div>
-      <Box sx={{ border: "2px solid black", margin: 3 }}>
+      <Typography variant="h5" component="h5" sx={{ fontWeight: "500" }}>
+        Welcome to: {room.toUpperCase()}
+      </Typography>
+
+      <Box sx={{ border: "2px solid black", padding: 5, margin: 3 }}>
         {messages.map((message) => (
           <Box key={message.id} sx={{ display: "flex", flexDirection: "row" }}>
             <Typography sx={{ fontWeight: "500" }}>{message.user}:</Typography>
@@ -81,7 +80,7 @@ export const Chat = ({ room }) => {
                 ml: 1,
                 textTransform: "capitalize",
                 color: "grey",
-                width: "500px",
+                width: "150px",
                 height: "50px",
               }}
             >

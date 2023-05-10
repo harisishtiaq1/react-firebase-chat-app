@@ -24,8 +24,11 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
           alignItems: "center",
           justifyContent: "center",
           fontWeight: "500",
-          border: "3px solid black",
+          // border: "1px solid black",
+          borderRadius: "40px 40px 0px 40px",
           backgroundColor: "blueViolet",
+          fontStyle: "italic",
+          color: "white",
         }}
       >
         Chat App

@@ -22,12 +22,12 @@ export const Auth = ({ setIsAuth }) => {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        mt: 3,
       }}
     >
-      <Typography> Sign In With Google To Continue </Typography>
-      <Button variant="contained" onClick={signInWithGoogle}>
-        {" "}
-        Sign In With Google{" "}
+      <Typography variant="h4" component='h4' sx={{fontStyle:'italic'}}> Sign In With Google To Continue </Typography>
+      <Button sx={{ mt: 3 }} variant="contained" onClick={signInWithGoogle}>
+        Sign In With Google
       </Button>
     </Box>
   );
