@@ -22,27 +22,37 @@ export const Chat = ({ room }) => {
       where("room", "==", room),
       orderBy("createdAt")
     );
-    const unsuscribe = onSnapshot(queryMessages, (snapshot) => {
+    const unsubscribe = onSnapshot(queryMessages, (snapshot) => {
       let messages = [];
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
-      console.log(messages);
-      setMessages(messages);
+    
+      const formattedMessages = messages.map((message, index) => {
+        return {
+          ...message,
+          align: index % 2 === 0 ? 'left' : 'right',
+        };
+      });
+    
+      setMessages(formattedMessages);
     });
+    
 
-    return () => unsuscribe();
+    return () => unsubscribe();
   }, [messages]);
   console.log("messages", messages);
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+const{uid}=auth.currentUser
     setNewMessage("");
     if (newMessage === "") return;
     await addDoc(messagesRef, {
       text: newMessage,
       createdAt: serverTimestamp(),
       user: auth.currentUser.displayName,
+      uid,
       room,
     });
   };
@@ -62,10 +72,12 @@ export const Chat = ({ room }) => {
       {messages && (
         <Box sx={{ margin: 3 }}>
           {messages &&
-            messages.map((message) => (
+            messages.map((message,uid) => (
               <Box
                 key={message.id}
-                sx={{ display: "flex", flexDirection: "row" }}
+                sx={{ display: "flex", flexDirection: "row",
+                textAlign:uid===auth.currentUser?"left":"right"
+              }}
               >
                 <Typography
                   variant="h5"
