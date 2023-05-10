@@ -57,7 +57,11 @@ function ChatApp() {
             <Typography variant="h4" component="h4" sx-={{ mt: 3 }}>
               Type room name:
             </Typography>
-            <Input placeholder="Enter Room Name Here" sx={{ mt: 4 }} onChange={(e) => setRoom(e.target.value)} />
+            <Input
+              placeholder="Enter Room Name Here"
+              sx={{ mt: 4 }}
+              onChange={(e) => setRoom(e.target.value)}
+            />
             <Button
               sx={{ mt: 4 }}
               variant="contained"
