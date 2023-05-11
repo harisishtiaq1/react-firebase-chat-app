@@ -39,7 +39,7 @@ export const Chat = ({ room }) => {
     });
 
     return () => unsubscribe();
-  }, [messages]);
+  }, []);
   console.log("messages", messages);
 
   const handleSubmit = async (event) => {
@@ -60,8 +60,6 @@ export const Chat = ({ room }) => {
     <Box
       sx={{
         display: "flex",
-        // justifyContent: "center",
-        // alignItems: "center",
         flexDirection: "column",
       }}
     >
