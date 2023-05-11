@@ -27,25 +27,24 @@ export const Chat = ({ room }) => {
       snapshot.forEach((doc) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
-    
+
       const formattedMessages = messages.map((message, index) => {
         return {
           ...message,
-          align: index % 2 === 0 ? 'left' : 'right',
+          align: index % 2 === 0 ? "left" : "right",
         };
       });
-    
+
       setMessages(formattedMessages);
     });
-    
 
     return () => unsubscribe();
   }, [messages]);
   console.log("messages", messages);
-  
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-const{uid}=auth.currentUser
+    const { uid } = auth.currentUser;
     setNewMessage("");
     if (newMessage === "") return;
     await addDoc(messagesRef, {
@@ -72,12 +71,14 @@ const{uid}=auth.currentUser
       {messages && (
         <Box sx={{ margin: 3 }}>
           {messages &&
-            messages.map((message,uid) => (
+            messages.map((message, uid) => (
               <Box
                 key={message.id}
-                sx={{ display: "flex", flexDirection: "row",
-                textAlign:uid===auth.currentUser?"left":"right"
-              }}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  textAlign: uid === auth.currentUser ? "left" : "right",
+                }}
               >
                 <Typography
                   variant="h5"
