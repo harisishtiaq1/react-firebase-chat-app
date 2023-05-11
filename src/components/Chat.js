@@ -65,7 +65,11 @@ export const Chat = ({ room }) => {
         flexDirection: "column",
       }}
     >
-      <Typography variant="h5" component="h5" sx={{ fontWeight: "500",textAlign:'center',mt:2}}>
+      <Typography
+        variant="h5"
+        component="h5"
+        sx={{ fontWeight: "500", textAlign: "center", mt: 2 }}
+      >
         Welcome to: {room.toUpperCase()}
       </Typography>
       {messages && (
@@ -80,16 +84,16 @@ export const Chat = ({ room }) => {
                   display: "flex",
                   flexDirection: "row",
                   margin: "10px",
-                  backgroundColor:"blueviolet",
-                  color:"white",
-                  width:'fit-content',
+                  backgroundColor: "blueviolet",
+                  color: "white",
+                  width: "fit-content",
                   textAlign: uid === auth.currentUser ? "left" : "right",
                 }}
               >
                 <Typography
                   variant="h5"
                   component="h5"
-                  sx={{ fontWeight: "500", ml: 2,mt:1 }}
+                  sx={{ fontWeight: "500", ml: 2, mt: 1 }}
                 >
                   {message.user}:
                 </Typography>
@@ -97,9 +101,9 @@ export const Chat = ({ room }) => {
                   variant="h6"
                   component="h6"
                   sx={{
-                    ml:1,
-                    mr:1,
-                    mt:1,
+                    ml: 1,
+                    mr: 1,
+                    mt: 1,
                     textTransform: "capitalize",
                     // color: "blue",
                     height: "50px",
@@ -112,7 +116,10 @@ export const Chat = ({ room }) => {
             ))}
         </Box>
       )}
-      <Stack direction="column" sx={{ mt: 3,display:'flex',alignItems:'center' }}>
+      <Stack
+        direction="column"
+        sx={{ mt: 3, display: "flex", alignItems: "center" }}
+      >
         <form onSubmit={handleSubmit} className="new-message-form">
           <Input
             type="text"
