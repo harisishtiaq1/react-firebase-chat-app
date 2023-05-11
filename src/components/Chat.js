@@ -60,12 +60,12 @@ export const Chat = ({ room }) => {
     <Box
       sx={{
         display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
+        // justifyContent: "center",
+        // alignItems: "center",
         flexDirection: "column",
       }}
     >
-      <Typography variant="h5" component="h5" sx={{ fontWeight: "500" }}>
+      <Typography variant="h5" component="h5" sx={{ fontWeight: "500",textAlign:'center',mt:2}}>
         Welcome to: {room.toUpperCase()}
       </Typography>
       {messages && (
@@ -75,15 +75,21 @@ export const Chat = ({ room }) => {
               <Box
                 key={message.id}
                 sx={{
+                  border: "2px solid black",
+                  borderRadius: "40px 40px 40px 0px",
                   display: "flex",
                   flexDirection: "row",
+                  margin: "10px",
+                  backgroundColor:"blueviolet",
+                  color:"white",
+                  width:'fit-content',
                   textAlign: uid === auth.currentUser ? "left" : "right",
                 }}
               >
                 <Typography
                   variant="h5"
                   component="h5"
-                  sx={{ fontWeight: "500" }}
+                  sx={{ fontWeight: "500", ml: 2,mt:1 }}
                 >
                   {message.user}:
                 </Typography>
@@ -91,9 +97,11 @@ export const Chat = ({ room }) => {
                   variant="h6"
                   component="h6"
                   sx={{
-                    ml: 1,
+                    ml:1,
+                    mr:1,
+                    mt:1,
                     textTransform: "capitalize",
-                    color: "black",
+                    // color: "blue",
                     height: "50px",
                     fontWeight: "400",
                   }}
@@ -104,7 +112,7 @@ export const Chat = ({ room }) => {
             ))}
         </Box>
       )}
-      <Stack direction="column" sx={{ mt: 3 }}>
+      <Stack direction="column" sx={{ mt: 3,display:'flex',alignItems:'center' }}>
         <form onSubmit={handleSubmit} className="new-message-form">
           <Input
             type="text"

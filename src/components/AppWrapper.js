@@ -32,8 +32,6 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
       >
         Chat App
       </Typography>
-
-      <div className="app-container">{children}</div>
       {isAuth && (
         <Box
           sx={{
@@ -41,6 +39,8 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
             justifyContent: "center",
             alignItems: "center",
             mt: 3,
+            position: "absolute",
+            right: 10,
           }}
         >
           <Button variant="contained" onClick={signUserOut}>
@@ -48,6 +48,8 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
           </Button>
         </Box>
       )}
+
+      <div className="app-container">{children}</div>
     </>
   );
 };
