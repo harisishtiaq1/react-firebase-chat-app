@@ -28,14 +28,7 @@ export const Chat = ({ room }) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
 
-      const formattedMessages = messages.map((message, index) => {
-        return {
-          ...message,
-          align: index % 2 === 0 ? "left" : "right",
-        };
-      });
-
-      setMessages(formattedMessages);
+  
     });
 
     return () => unsubscribe();
@@ -85,7 +78,6 @@ export const Chat = ({ room }) => {
                   backgroundColor: "blueviolet",
                   color: "white",
                   width: "fit-content",
-                  // textAlign: uid === auth.currentUser ? "left" : "right",
                 }}
               >
                 <Typography
@@ -103,7 +95,6 @@ export const Chat = ({ room }) => {
                     mr: 1,
                     mt: 1,
                     textTransform: "capitalize",
-                    // color: "blue",
                     height: "50px",
                     fontWeight: "400",
                   }}
