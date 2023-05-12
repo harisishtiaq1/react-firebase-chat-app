@@ -44,14 +44,12 @@ export const Chat = ({ room }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { uid } = auth.currentUser;
     setNewMessage("");
     if (newMessage === "") return;
     await addDoc(messagesRef, {
       text: newMessage,
       createdAt: serverTimestamp(),
       user: auth.currentUser.displayName,
-      uid,
       room,
     });
   };
@@ -61,6 +59,8 @@ export const Chat = ({ room }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
+        border: "2px solid black",
+        mt: 3,
       }}
     >
       <Typography
@@ -73,7 +73,7 @@ export const Chat = ({ room }) => {
       {messages && (
         <Box sx={{ margin: 3 }}>
           {messages &&
-            messages.map((message, uid) => (
+            messages.map((message) => (
               <Box
                 key={message.id}
                 sx={{
@@ -85,7 +85,7 @@ export const Chat = ({ room }) => {
                   backgroundColor: "blueviolet",
                   color: "white",
                   width: "fit-content",
-                  textAlign: uid === auth.currentUser ? "left" : "right",
+                  // textAlign: uid === auth.currentUser ? "left" : "right",
                 }}
               >
                 <Typography
