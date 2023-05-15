@@ -9,7 +9,14 @@ import {
   query,
   orderBy,
 } from "firebase/firestore";
-import { Box, Button, Input, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Input,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
@@ -28,7 +35,14 @@ export const Chat = ({ room }) => {
         messages.push({ ...doc.data(), id: doc.id });
       });
 
-  
+      const formattedMessages = messages.map((message, index) => {
+        return {
+          ...message,
+          align: index % 2 === 0 ? "left" : "right",
+        };
+      });
+
+      setMessages(formattedMessages);
     });
 
     return () => unsubscribe();
@@ -37,6 +51,7 @@ export const Chat = ({ room }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    // const  uid  = auth.currentUser;
     setNewMessage("");
     if (newMessage === "") return;
     await addDoc(messagesRef, {
@@ -52,81 +67,144 @@ export const Chat = ({ room }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        border: "2px solid black",
-        mt: 3,
+        mt: 2,
       }}
     >
-      <Typography
-        variant="h5"
-        component="h5"
-        sx={{ fontWeight: "500", textAlign: "center", mt: 2 }}
-      >
-        Welcome to: {room.toUpperCase()}
-      </Typography>
-      {messages && (
-        <Box sx={{ margin: 3 }}>
-          {messages &&
-            messages.map((message) => (
+      {messages &&
+        messages.map((message) => (
+          <>
+            {message.user === auth.currentUser?.displayName ? (
               <Box
-                key={message.id}
                 sx={{
-                  border: "2px solid black",
-                  borderRadius: "40px 40px 40px 0px",
                   display: "flex",
-                  flexDirection: "row",
-                  margin: "10px",
-                  backgroundColor: "blueviolet",
-                  color: "white",
-                  width: "fit-content",
+                  flexDirection: "column",
+                  alignItems: "flex-end",
                 }}
               >
-                <Typography
-                  variant="h5"
-                  component="h5"
-                  sx={{ fontWeight: "500", ml: 2, mt: 1 }}
-                >
-                  {message.user}:
-                </Typography>
-                <Typography
-                  variant="h6"
-                  component="h6"
+                <Box
+                  key={message.id}
                   sx={{
-                    ml: 1,
-                    mr: 1,
-                    mt: 1,
-                    textTransform: "capitalize",
-                    height: "50px",
-                    fontWeight: "400",
+                    borderRadius: "10px 10px 10px 10px",
+                    display: "flex",
+                    flexDirection: "row",
+                    margin: "5px",
+                    backgroundColor: "blue",
+                    width: "fit-content",
+                    justifyContent: "flex-end",
+                    color: "white",
                   }}
                 >
-                  {message.text}
-                </Typography>
+                  <Typography
+                    variant="h5"
+                    component="h5"
+                    sx={{
+                      fontSize: "16px",
+                      fontWeight: "500",
+                      ml: 2,
+                      mt: 2,
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {message.user}:
+                  </Typography>
+                  <Typography
+                    variant="h6"
+                    component="h6"
+                    sx={{
+                      ml: 1,
+                      mr: 1,
+                      mt: 2,
+                      fontSize: "12px",
+                      textTransform: "capitalize",
+                      height: "50px",
+                      fontWeight: "400",
+                    }}
+                  >
+                    {message.text}
+                  </Typography>
+                </Box>
               </Box>
-            ))}
-        </Box>
-      )}
-      <Stack
-        direction="column"
-        sx={{ mt: 3, display: "flex", alignItems: "center" }}
-      >
-        <form onSubmit={handleSubmit} className="new-message-form">
-          <Input
+            ) : (
+              (console.log("info here", message.user, auth.currentUser),
+              (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    // alignItems: "flex-end",
+                  }}
+                >
+                  <Box
+                    key={message.id}
+                    sx={{
+                      borderRadius: "10px 10px 10px 10px",
+                      display: "flex",
+                      flexDirection: "row",
+                      margin: "10px",
+                      backgroundColor: "grey",
+                      color: "black",
+                      width: "fit-content",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <Typography
+                      variant="h5"
+                      component="h5"
+                      sx={{
+                        fontWeight: "500",
+                        ml: 2,
+                        mt: 2,
+                        fontStyle: "italic",
+                        fontSize: "16px",
+                      }}
+                    >
+                      {message.user}:
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      component="h6"
+                      sx={{
+                        fontSize: "14px",
+                        ml: 1,
+                        mr: 1,
+                        mt: 2,
+                        textTransform: "capitalize",
+                        height: "50px",
+                        fontWeight: "400",
+                      }}
+                    >
+                      {message.text}
+                    </Typography>
+                  </Box>
+                </Box>
+              ))
+            )}
+          </>
+        ))}
+
+      <form onSubmit={handleSubmit} className="new-message-form">
+        <Stack
+          direction="row"
+          sx={{ mb: 2, mt: 2, position: "fixed", bottom: 0, width: "100%" }}
+        >
+          <TextField
             type="text"
+            fullWidth
+            placeholder="Type your message here"
             value={newMessage}
             onChange={(event) => setNewMessage(event.target.value)}
             className="new-message-input"
-            placeholder="Type your message here..."
           />
           <Button
-            sx={{ ml: 3 }}
+            sx={{ ml: 3, padding: 2, width: 150 }}
             variant="contained"
             type="submit"
             className="send-button"
           >
             Send
           </Button>
-        </form>
-      </Stack>
+        </Stack>
+      </form>
     </Box>
   );
 };

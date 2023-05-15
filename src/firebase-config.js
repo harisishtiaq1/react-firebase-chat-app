@@ -8,7 +8,7 @@ const firebaseConfig = {
   projectId: "chatapp-b8de9",
   storageBucket: "chatapp-b8de9.appspot.com",
   messagingSenderId: "18114908863",
-  appId: "1:18114908863:web:c6cd98d833cac96f4a6c0a"
+  appId: "1:18114908863:web:c6cd98d833cac96f4a6c0a",
 };
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
