@@ -24,12 +24,13 @@ export const Auth = ({ setIsAuth }) => {
         alignItems: "center",
         flexDirection: "column",
         mt: 3,
+        mr:35
       }}
     >
       <Typography
         variant="h4"
         component="h4"
-        sx={{ fontWeight: "400", mt: 3, fontStyle: "italic" }}
+        sx={{ fontWeight: "400", mt: 3,fontSize:"40px"}}
       >
         SignIn
       </Typography>

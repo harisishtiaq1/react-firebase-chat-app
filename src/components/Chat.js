@@ -12,13 +12,11 @@ import {
 import {
   Box,
   IconButton,
+  InputBase,
   Paper,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { Recorder } from "react-voice-recorder";
-import "react-voice-recorder/dist/index.css";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -35,7 +33,6 @@ const thumbStyle = {
 export const Chat = ({ room }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [timeStamp, setTimeStamp] = useState(null);
   const messagesRef = collection(db, "messages");
 
   useEffect(() => {
@@ -65,15 +62,13 @@ export const Chat = ({ room }) => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     setNewMessage("");
-    const timeStamp = serverTimestamp();
     if (newMessage === "") return;
     await addDoc(messagesRef, {
       text: newMessage,
-      createdAt: timeStamp,
+      createdAt: serverTimestamp(),
       user: auth.currentUser.displayName,
       room,
     });
-    setTimeStamp(timeStamp);
   };
 
   return (
@@ -81,7 +76,7 @@ export const Chat = ({ room }) => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        mt: 2,
+        mt: 5,
       }}
     >
       <Scrollbars
@@ -92,7 +87,7 @@ export const Chat = ({ room }) => {
         )}
       >
         {messages &&
-          messages.map((message) => (
+          messages.map((message, index) => (
             <>
               {message.user === auth.currentUser?.displayName ? (
                 <Box
@@ -103,13 +98,13 @@ export const Chat = ({ room }) => {
                   }}
                 >
                   <Box
-                    key={message.id}
+                    key={index}
                     sx={{
                       borderRadius: "10px 10px 10px 10px",
                       display: "flex",
                       flexDirection: "row",
                       margin: "5px",
-                      backgroundColor: "blue",
+                      backgroundColor: "blueViolet",
                       width: "fit-content",
                       justifyContent: "flex-end",
                       color: "white",
@@ -126,75 +121,83 @@ export const Chat = ({ room }) => {
                         textTransform: "capitalize",
                         height: "40px",
                         fontWeight: "400",
+                        width: "fit-content",
                       }}
                     >
                       {message.text}
                     </Typography>
+                    {message.createdAt && (
+                      <Typography sx={{ mt: 4, height: "20px", width: 100 }}>
+                        {message.createdAt.toDate().toLocaleTimeString()}
+                      </Typography>
+                    )}
                   </Box>
                 </Box>
               ) : (
-                (console.log("info here", message.user, auth.currentUser),
-                (
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
                   <Box
+                    key={index}
                     sx={{
+                      borderRadius: "10px 10px 10px 10px",
                       display: "flex",
-                      flexDirection: "column",
+                      flexDirection: "row",
+                      margin: "10px",
+                      backgroundColor: "black",
+                      color: "white",
+                      width: "fit-content",
+                      justifyContent: "flex-end",
+                      position: "relative",
                     }}
                   >
-                    <Box
-                      key={message.id}
+                    <Typography
+                      variant="h6"
+                      component="h6"
                       sx={{
-                        borderRadius: "10px 10px 10px 10px",
-                        display: "flex",
-                        flexDirection: "row",
-                        margin: "10px",
-                        backgroundColor: "grey",
-                        color: "black",
+                        fontSize: "16px",
+                        ml: 1,
+                        mr: 1,
+                        mt: 2,
+                        textTransform: "capitalize",
+                        height: "40px",
+                        fontWeight: "400",
                         width: "fit-content",
-                        justifyContent: "flex-end",
                       }}
                     >
-                      <Typography
-                        variant="h6"
-                        component="h6"
-                        sx={{
-                          fontSize: "16px",
-                          ml: 1,
-                          mr: 1,
-                          mt: 2,
-                          textTransform: "capitalize",
-                          height: "40px",
-                          fontWeight: "400",
-                        }}
-                      >
-                        {message.text}
+                      {message.text}
+                    </Typography>
+                    {message.createdAt && (
+                      <Typography sx={{ mt: 4, height: "20px", width: 90 }}>
+                        {message.createdAt.toDate().toLocaleTimeString()}
                       </Typography>
-                      {timeStamp && (
-                        <Typography>
-                          {timeStamp.toDate().toLocaleString()}
-                        </Typography>
-                      )}
-                    </Box>
+                    )}
                   </Box>
-                ))
+                </Box>
               )}
             </>
           ))}
       </Scrollbars>
 
       <form onSubmit={handleSubmit}>
-        <Stack direction="row" sx={{ mb: 2, mt: 2, bottom: 0, width: "100%" }}>
+        <Stack direction="row" sx={{ bottom: 0, width: "100%" }}>
           <Paper
             sx={{
               width: "100%",
               display: "flex",
+              backgroundColor: "black",
+              color: "white",
+              borderRadius: "10px",
             }}
           >
-            <IconButton>
+            <IconButton sx={{ color: "white" }}>
               <EmojiEmotionsIcon />
             </IconButton>
-            <TextField
-              sx={{ border: "none", borderRadius: 0 }}
+            <InputBase
+              sx={{ border: "none", borderRadius: 0, color: "white" }}
               type="text"
               fullWidth
               placeholder="Type Something"
@@ -202,48 +205,46 @@ export const Chat = ({ room }) => {
               autoComplete="off"
               onChange={(event) => setNewMessage(event.target.value)}
             />
-            <IconButton>
+            <IconButton sx={{ color: "white" }}>
               <CameraAltIcon />
             </IconButton>
-            <IconButton>
+            <IconButton sx={{ color: "white" }}>
               <AttachFileIcon />
             </IconButton>
+            {newMessage.length > 0 ? (
+              <IconButton
+                sx={{
+                  padding: 2,
+                  backgroundColor: "blueviolet",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "blueViolet",
+                  },
+                  color: "white",
+                }}
+                variant="contained"
+                type="submit"
+              >
+                <SendIcon />
+              </IconButton>
+            ) : (
+              <IconButton
+                sx={{
+                  padding: 2,
+                  backgroundColor: "black",
+                  borderRadius: "10px",
+                  "&:hover": {
+                    backgroundColor: "black",
+                  },
+                  color: "white",
+                }}
+                variant="contained"
+                type="submit"
+              >
+                <KeyboardVoiceIcon />
+              </IconButton>
+            )}
           </Paper>
-          {newMessage.length > 0 ? (
-            <IconButton
-              sx={{
-                ml: 3,
-                padding: 2,
-                width: 150,
-                backgroundColor: "lightblue",
-                borderRadius: "10px",
-                "&:hover": {
-                  backgroundColor: "lightblue",
-                },
-              }}
-              variant="contained"
-              type="submit"
-            >
-              <SendIcon />
-            </IconButton>
-          ) : (
-            <IconButton
-              sx={{
-                ml: 3,
-                padding: 2,
-                width: 150,
-                backgroundColor: "lightblue",
-                borderRadius: "10px",
-                "&:hover": {
-                  backgroundColor: "lightblue",
-                },
-              }}
-              variant="contained"
-              type="submit"
-            >
-              <KeyboardVoiceIcon />
-            </IconButton>
-          )}
         </Stack>
       </form>
     </Box>
