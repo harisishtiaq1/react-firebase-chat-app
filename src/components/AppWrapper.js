@@ -323,7 +323,7 @@ export const AppWrapper = ({ children, isAuth, setIsAuth, setIsInChat }) => {
           </Drawer>
         </>
       )}
-      <Box sx={{ mt: 8, ml: 35 }}>{children}</Box>
+      <Box sx={{ mt: 8, ml: 33 }}>{children}</Box>
       <Popover
         id={id}
         open={open}

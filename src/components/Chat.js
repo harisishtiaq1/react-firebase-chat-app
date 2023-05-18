@@ -14,9 +14,14 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Popover,
   Stack,
   Typography,
 } from "@mui/material";
+import VideoCallIcon from "@mui/icons-material/VideoCall";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import MenuIcon from "@mui/icons-material/Menu";
+import Picker from "emoji-picker-react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
@@ -31,10 +36,26 @@ const thumbStyle = {
   height: "5px",
 };
 export const Chat = ({ room }) => {
+  const [popoverOpen, setPopoverOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [selectedEmoji, setSelectedEmoji] = useState("");
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [userName,setUserName]=useState("")
   const messagesRef = collection(db, "messages");
 
+  const handleEmojiIconClick = (event) => {
+    setPopoverOpen(true);
+    setAnchorEl(event.currentTarget);
+  };
+  const handlePopoverClose = () => {
+    setPopoverOpen(false);
+  };
+  const onEmojiClick = (emojiObject) => {
+    setMessages((prevInput) => prevInput + emojiObject.emoji);
+    setSelectedEmoji([...selectedEmoji, emojiObject.unified]);
+    // setShowPicker(false);
+  };
   useEffect(() => {
     const queryMessages = query(
       messagesRef,
@@ -72,181 +93,220 @@ export const Chat = ({ room }) => {
   };
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        mt: 5,
-      }}
-    >
-      <Scrollbars
-        style={{ height: 490 }}
-        autoHide={true}
-        renderThumbVertical={({ style, ...props }) => (
-          <div {...props} style={{ ...style, ...thumbStyle }} />
-        )}
+    <>
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          mt: 5,
+        }}
       >
-        {messages &&
-          messages.map((message, index) => (
-            <>
-              {message.user === auth.currentUser?.displayName ? (
-                <Box
-                  key={message.id}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "flex-end",
-                  }}
-                >
+        <Paper
+          sx={{
+            background: "blueViolet",
+            height: "30px",
+            padding: 2,
+            display: "flex",
+            borderRadius: "0px 0px 0px 0px",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography sx={{ color: "white", fontWeight: "500" }}>
+            Haris here
+          </Typography>
+          <Stack direction="row">
+            <IconButton sx={{ color: "white" }}>
+              <VideoCallIcon fontSize="medium" />
+            </IconButton>
+            <IconButton sx={{ color: "white" }}>
+              <PersonAddIcon fontSize="medium" />
+            </IconButton>
+            <IconButton sx={{ color: "white" }}>
+              <MenuIcon fontSize="medium" />
+            </IconButton>
+          </Stack>
+        </Paper>
+        <Scrollbars
+          style={{ height: 430 }}
+          autoHide={true}
+          renderThumbVertical={({ style, ...props }) => (
+            <div {...props} style={{ ...style, ...thumbStyle }} />
+          )}
+        >
+          {messages &&
+            messages.map((message, index) => (
+              <>
+                {message.user === auth.currentUser?.displayName ? (
                   <Box
+                    key={message.id}
                     sx={{
-                      borderRadius: "10px 10px 10px 10px",
                       display: "flex",
-                      flexDirection: "row",
-                      margin: "5px",
-                      backgroundColor: "blueViolet",
-                      width: "fit-content",
-                      justifyContent: "flex-end",
-                      color: "white",
+                      flexDirection: "column",
+                      alignItems: "flex-end",
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      component="h6"
+                    <Box
                       sx={{
-                        ml: 1,
-                        mr: 1,
-                        mt: 2,
-                        fontSize: "16px",
-                        textTransform: "capitalize",
-                        height: "40px",
-                        fontWeight: "400",
+                        borderRadius: "10px 10px 10px 10px",
+                        display: "flex",
+                        flexDirection: "row",
+                        margin: "5px",
+                        backgroundColor: "blueViolet",
                         width: "fit-content",
+                        justifyContent: "flex-end",
+                        color: "white",
                       }}
                     >
-                      {message.text}
-                    </Typography>
-                    {message.createdAt && (
-                      <Typography sx={{ mt: 4, height: "20px", width: 100 }}>
-                        {message.createdAt.toDate().toLocaleTimeString()}
+                      <Typography
+                        variant="h6"
+                        component="h6"
+                        sx={{
+                          ml: 1,
+                          mr: 1,
+                          mt: 2,
+                          fontSize: "16px",
+                          textTransform: "capitalize",
+                          height: "40px",
+                          fontWeight: "400",
+                          width: "fit-content",
+                        }}
+                      >
+                        {message.text}
                       </Typography>
-                    )}
+                      {message.createdAt && (
+                        <Typography sx={{ mt: 4, height: "20px", width: 100 }}>
+                          {message.createdAt.toDate().toLocaleTimeString()}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
-                </Box>
-              ) : (
-                <Box
-                  key={message.id}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
+                ) : (
                   <Box
+                    key={message.id}
                     sx={{
-                      borderRadius: "10px 10px 10px 10px",
                       display: "flex",
-                      flexDirection: "row",
-                      margin: "10px",
-                      backgroundColor: "black",
-                      color: "white",
-                      width: "fit-content",
-                      justifyContent: "flex-end",
-                      position: "relative",
+                      flexDirection: "column",
                     }}
                   >
-                    <Typography
-                      variant="h6"
-                      component="h6"
+                    <Box
                       sx={{
-                        fontSize: "16px",
-                        ml: 1,
-                        mr: 1,
-                        mt: 2,
-                        textTransform: "capitalize",
-                        height: "40px",
-                        fontWeight: "400",
+                        borderRadius: "10px 10px 10px 10px",
+                        display: "flex",
+                        flexDirection: "row",
+                        margin: "10px",
+                        backgroundColor: "black",
+                        color: "white",
                         width: "fit-content",
+                        justifyContent: "flex-end",
+                        position: "relative",
                       }}
                     >
-                      {message.text}
-                    </Typography>
-                    {message.createdAt && (
-                      <Typography sx={{ mt: 4, height: "20px", width: 90 }}>
-                        {message.createdAt.toDate().toLocaleTimeString()}
+                      <Typography
+                        variant="h6"
+                        component="h6"
+                        sx={{
+                          fontSize: "16px",
+                          ml: 1,
+                          mr: 1,
+                          mt: 2,
+                          textTransform: "capitalize",
+                          height: "40px",
+                          fontWeight: "400",
+                          width: "fit-content",
+                        }}
+                      >
+                        {message.text}
                       </Typography>
-                    )}
+                      {message.createdAt && (
+                        <Typography sx={{ mt: 4, height: "20px", width: 90 }}>
+                          {message.createdAt.toDate().toLocaleTimeString()}
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
-                </Box>
-              )}
-            </>
-          ))}
-      </Scrollbars>
+                )}
+              </>
+            ))}
+        </Scrollbars>
 
-      <form onSubmit={handleSubmit}>
-        <Stack direction="row" sx={{ bottom: 0, width: "100%" }}>
-          <Paper
-            sx={{
-              width: "100%",
-              display: "flex",
-              backgroundColor: "black",
-              color: "white",
-              borderRadius: "10px",
-            }}
-          >
-            <IconButton sx={{ color: "white" }}>
-              <EmojiEmotionsIcon />
-            </IconButton>
-            <InputBase
-              sx={{ border: "none", borderRadius: 0, color: "white" }}
-              type="text"
-              fullWidth
-              placeholder="Type Something"
-              value={newMessage}
-              autoComplete="off"
-              onChange={(event) => setNewMessage(event.target.value)}
-            />
-            <IconButton sx={{ color: "white" }}>
-              <CameraAltIcon />
-            </IconButton>
-            <IconButton sx={{ color: "white" }}>
-              <AttachFileIcon />
-            </IconButton>
-            {newMessage.length > 0 ? (
+        <form onSubmit={handleSubmit}>
+          <Stack direction="row" sx={{ bottom: 0, width: "100%" }}>
+            <Paper
+              sx={{
+                width: "100%",
+                display: "flex",
+                backgroundColor: "black",
+                color: "white",
+                borderRadius: "10px",
+              }}
+            >
               <IconButton
-                sx={{
-                  padding: 2,
-                  backgroundColor: "blueviolet",
-                  borderRadius: "10px",
-                  "&:hover": {
-                    backgroundColor: "blueViolet",
-                  },
-                  color: "white",
-                }}
-                variant="contained"
-                type="submit"
+                sx={{ color: "white" }}
+                onClick={handleEmojiIconClick}
               >
-                <SendIcon />
+                <EmojiEmotionsIcon />
               </IconButton>
-            ) : (
-              <IconButton
-                sx={{
-                  padding: 2,
-                  backgroundColor: "black",
-                  borderRadius: "10px",
-                  "&:hover": {
+              <InputBase
+                sx={{ border: "none", borderRadius: 0, color: "white" }}
+                type="text"
+                fullWidth
+                placeholder="Type Something"
+                value={newMessage}
+                autoComplete="off"
+                onChange={(event) => setNewMessage(event.target.value)}
+              />
+              <IconButton sx={{ color: "white" }}>
+                <CameraAltIcon />
+              </IconButton>
+              <IconButton sx={{ color: "white" }}>
+                <AttachFileIcon />
+              </IconButton>
+              {newMessage.length > 0 ? (
+                <IconButton
+                  sx={{
+                    padding: 2,
+                    backgroundColor: "blueviolet",
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "blueViolet",
+                    },
+                    color: "white",
+                  }}
+                  variant="contained"
+                  type="submit"
+                >
+                  <SendIcon />
+                </IconButton>
+              ) : (
+                <IconButton
+                  sx={{
+                    padding: 2,
                     backgroundColor: "black",
-                  },
-                  color: "white",
-                }}
-                variant="contained"
-                type="submit"
-              >
-                <KeyboardVoiceIcon />
-              </IconButton>
-            )}
-          </Paper>
-        </Stack>
-      </form>
-    </Box>
+                    borderRadius: "10px",
+                    "&:hover": {
+                      backgroundColor: "black",
+                    },
+                    color: "white",
+                  }}
+                  variant="contained"
+                  type="submit"
+                >
+                  <KeyboardVoiceIcon />
+                </IconButton>
+              )}
+            </Paper>
+          </Stack>
+        </form>
+      </Box>
+      <Popover
+        open={popoverOpen}
+        anchorEl={anchorEl}
+        onClose={handlePopoverClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Picker onEmojiClick={onEmojiClick} />
+      </Popover>
+    </>
   );
 };
