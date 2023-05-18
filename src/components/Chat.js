@@ -41,7 +41,7 @@ export const Chat = ({ room }) => {
   const [selectedEmoji, setSelectedEmoji] = useState("");
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-  const [userName,setUserName]=useState("")
+  const [userName, setUserName] = useState("");
   const messagesRef = collection(db, "messages");
 
   const handleEmojiIconClick = (event) => {
