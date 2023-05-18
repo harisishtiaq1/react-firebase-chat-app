@@ -91,6 +91,7 @@ export const Chat = ({ room }) => {
             <>
               {message.user === auth.currentUser?.displayName ? (
                 <Box
+                  key={message.id}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
@@ -98,7 +99,6 @@ export const Chat = ({ room }) => {
                   }}
                 >
                   <Box
-                    key={index}
                     sx={{
                       borderRadius: "10px 10px 10px 10px",
                       display: "flex",
@@ -135,13 +135,13 @@ export const Chat = ({ room }) => {
                 </Box>
               ) : (
                 <Box
+                  key={message.id}
                   sx={{
                     display: "flex",
                     flexDirection: "column",
                   }}
                 >
                   <Box
-                    key={index}
                     sx={{
                       borderRadius: "10px 10px 10px 10px",
                       display: "flex",
